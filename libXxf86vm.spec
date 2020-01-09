@@ -1,12 +1,10 @@
 Summary: X.Org X11 libXxf86vm runtime library
 Name: libXxf86vm
-Version: 1.1.0
-Release: 1%{?dist}
+Version: 1.1.2
+Release: 2%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.x.org
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
 Source0: ftp://ftp.x.org/pub/individual/lib/%{name}-%{version}.tar.bz2
 
 BuildRequires: pkgconfig(xext) pkgconfig(xf86vidmodeproto)
@@ -27,26 +25,19 @@ X.Org X11 libXxf86vm development package
 
 %build
 %configure --disable-static
-make
+make %{?_smp_mflags}
 
 %install
-rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
-make install DESTDIR=$RPM_BUILD_ROOT
-
-# We intentionally don't ship *.la files
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
 %defattr(-,root,root,-)
-# FIXME: missing some of these files %doc AUTHORS COPYING README INSTALL ChangeLog
-%doc COPYING ChangeLog
+%doc README COPYING ChangeLog
 %{_libdir}/libXxf86vm.so.1
 %{_libdir}/libXxf86vm.so.1.0.0
 
@@ -54,11 +45,31 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %{_libdir}/libXxf86vm.so
 %{_libdir}/pkgconfig/xxf86vm.pc
-#%dir %{_mandir}/man3x
 %{_mandir}/man3/*.3*
 %{_includedir}/X11/extensions/xf86vmode.h
 
 %changelog
+* Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
+* Thu Mar 08 2012 Adam Jackson <ajax@redhat.com> 1.1.2-1
+- libXxf86vm 1.1.2
+
+* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
+* Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
+* Mon Nov 08 2010 Adam Jackson <ajax@redhat.com> 1.1.1-1
+- libXxf86vm 1.1.1
+
+* Wed Sep 29 2010 jkeating - 1.1.0-3
+- Rebuilt for gcc bug 634757
+
+* Mon Sep 13 2010 Parag Nemade <paragn AT fedoraproject.org> 1.1.0-2
+- Merge-review cleanup (#226096)
+
 * Wed Oct 07 2009 Adam Jackson <ajax@redhat.com> 1.1.0-1
 - libXxf86vm 1.1.0
 
