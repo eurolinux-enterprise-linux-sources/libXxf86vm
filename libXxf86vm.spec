@@ -4,7 +4,7 @@
 
 Summary: X.Org X11 libXxf86vm runtime library
 Name: libXxf86vm
-Version: 1.1.4
+Version: 1.1.3
 Release: 1%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
 License: MIT
 Group: System Environment/Libraries
@@ -66,15 +66,6 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_includedir}/X11/extensions/xf86vmode.h
 
 %changelog
-* Mon Jan 23 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 1.1.4-1
-- libXxf86vm 1.1.4
-
-* Wed Feb 12 2014 Adam Jackson <ajax@redhat.com> 1.1.3-2.1
-- Mass rebuild
-
-* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 1.1.3-2
-- Mass rebuild 2013-12-27
-
 * Fri May 31 2013 Peter Hutterer <peter.hutterer@redhat.com> 1.1.3-1
 - libXxf86vm 1.1.3
 
